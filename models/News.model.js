@@ -1,25 +1,24 @@
-const { type } = require("express/lib/response");
 const { Schema, model } = require("mongoose");
 
-const tagSchema = new Schema({
+const newsSchema = new Schema({
   title: {
     type: String,
   },
   author: {
-      type: Schema.Types.ObjectId,
-      ref: "User"
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
   tags: [
-      {
-          type: String
-      },
+    {
+      type: String,
+    },
   ],
   image: {
-      type: String
+    type: String,
   },
   content: {
-      type: String
-  }
+    type: String,
+  },
 });
 
 const News = model("News", newsSchema);

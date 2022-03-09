@@ -22,6 +22,12 @@ require("./config")(app);
 const allRoutes = require("./routes/index.routes");
 app.use("/api", allRoutes);
 
+const tagRoutes = require("./routes/tags.routes")
+app.use("/api", tagRoutes)
+
+const newsRoutes = require("./routes/news.routes")
+app.use("/api", newsRoutes)
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

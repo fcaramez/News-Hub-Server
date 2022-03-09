@@ -9,17 +9,17 @@ const userSchema = new Schema(
     },
     password: String,
     savedTags: [
-      { 
-        type: Schema.Types.ObjectId, 
-        ref: "Tag" 
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tag",
       },
     ],
     favouriteNews: [
       {
         type: Schema.Types.ObjectId,
-        ref: "News"
-      }
-    ]
+        ref: "News",
+      },
+    ],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
