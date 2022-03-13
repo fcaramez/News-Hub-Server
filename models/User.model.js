@@ -14,12 +14,6 @@ const userSchema = new Schema(
         ref: "Tag",
       },
     ],
-    favouriteNews: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "News",
-      },
-    ],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

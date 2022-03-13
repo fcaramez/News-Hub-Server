@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const News = require("../models/News.model");
+const User = require("../models/User.model");
 
 router.get("/news", (req, res, next) => {
   News.find()
+    .populate("author")
     .then((foundNews) => {
       res.json(foundNews);
     })
@@ -12,8 +14,9 @@ router.get("/news", (req, res, next) => {
 
 router.post("/news", (req, res, next) => {
   const { title, author, tags, image, content } = req.body;
+  const user = req.session.user;
 
-  News.create({ title, author, tags, image, content })
+  News.create({ title, author, tags, author: user._id, image, content })
     .then((createdNews) => {
       res.json(createdNews);
     })

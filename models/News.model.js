@@ -8,12 +8,7 @@ const newsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  tags: [
-    {
-      type: String,
-    },
-  ],
-  image: {
+  description: {
     type: String,
   },
   content: {
