@@ -41,7 +41,7 @@ router.put("/news/:newsId", (req, res, next) => {
     return;
   }
 
-  News.findByIdAndUpdate(newsId, req.body)
+  News.findByIdAndUpdate(newsId, req.body, { new: true })
     .then((updatedNews) => {
       res.json(updatedNews);
     })

@@ -1,11 +1,14 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const Tag = require("../models/Tags.model");
+const User = require("../models/User.model")
 
-router.post("/tags", (req, res, next) => {
-  const { name } = req.body;
+router.post("/tags", async (req, res, next) => {
+  const { name, author } = req.body;
 
-  Tag.create({ name })
+  const user = await User.findById(author);
+
+  Tag.create({ name, author: user })
     .then((newTag) => {
       res.json(newTag);
     })
@@ -13,27 +16,27 @@ router.post("/tags", (req, res, next) => {
 });
 
 router.get("/tags", (req, res, next) => {
-    Tag.find()
+  Tag.find()
+  .populate("author")
     .then((foundTask) => {
-        res.json(foundTask)
+      res.json(foundTask);
     })
-    .catch((err) => next(err))
-})
+    .catch((err) => next(err));
+});
 
 router.delete("/tags/:tagId", (req, res, next) => {
-    const {tagId} = req.params;
-    
-    if (!mongoose.Types.ObjectId.isValid(tagId)) {
-      res.status(400).json({ message: "Specified Id is not valid" });
-      return;
-    }
+  const { tagId } = req.params;
 
-    Tag.findByIdAndRemove(tagId)
-    .then(() => {
-        res.json({
-          message: `Tag with ${tagId} was removed successfully`,
-        });
-    })
-})
+  if (!mongoose.Types.ObjectId.isValid(tagId)) {
+    res.status(400).json({ message: "Specified Id is not valid" });
+    return;
+  }
+
+  Tag.findByIdAndRemove(tagId).then(() => {
+    res.json({
+      message: `Tag with ${tagId} was removed successfully`,
+    });
+  });
+});
 
 module.exports = router;
