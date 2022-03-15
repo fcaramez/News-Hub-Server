@@ -12,11 +12,21 @@ router.get("/news", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post("/news", (req, res, next) => {
-  const { title, author, tags, image, content } = req.body;
-  const user = req.session.user;
+router.get("/news/:newsId", async (req, res, next) => {
+  const { newsId } = req.params;
 
-  News.create({ title, author, tags, author: user._id, image, content })
+  News.findById(newsId)
+    .populate("author")
+    .then((found) => res.json(found))
+    .catch((err) => next(err));
+});
+
+router.post("/news", async (req, res, next) => {
+  const { title, description, author, content } = req.body;
+
+  const user = await User.findById(author);
+
+  News.create({ title, author: user, description, content })
     .then((createdNews) => {
       res.json(createdNews);
     })
